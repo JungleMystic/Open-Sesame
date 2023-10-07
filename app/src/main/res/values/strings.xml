@@ -6,10 +6,12 @@
 
     <string name="add_credentials">Add Credentials</string>
     <string name="edit_credentials">Edit Credentials</string>
-    <string name="group_name">Group Name</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="group_name">Group Name <font color='#f9154a'>*</font></string>
+    <string name="username">Username <font color='#f9154a'>*</font></string>
+    <string name="password">Password <font color='#f9154a'>*</font></string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
 
+    <string name="username1">Username</string>
+    <string name="password1">Password</string>
 </resources>

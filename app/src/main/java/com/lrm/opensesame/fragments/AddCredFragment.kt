@@ -44,8 +44,8 @@ class AddCredFragment : Fragment() {
     }
 
     private fun addCred() {
-        val group = binding.groupName.text.toString()
-        val userName = binding.username.text.toString()
+        val group = binding.groupName.text.toString().trim()
+        val userName = binding.username.text.toString().trim()
         val password = binding.password.text.toString()
 
         if (credViewModel.isEntryValid(requireContext(),

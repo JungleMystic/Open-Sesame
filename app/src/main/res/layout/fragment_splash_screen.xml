@@ -13,8 +13,8 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         app:lottie_rawRes="@raw/intro_anim"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/app_name"
@@ -27,12 +27,27 @@
         android:text="@string/app_name"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:textColor="@color/blue"
+        android:textColor="@color/blue2"
         android:fontFamily="@font/dancing_script_regular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.58"/>
+        app:layout_constraintVertical_bias="0.58"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/fingerprint_iv"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:src="@drawable/fingerprint_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="130dp"
+        tools:visibility="visible"
+        android:visibility="invisible"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

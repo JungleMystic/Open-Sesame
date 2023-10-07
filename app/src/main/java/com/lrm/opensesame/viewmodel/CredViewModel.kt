@@ -3,8 +3,11 @@ package com.lrm.opensesame.viewmodel
 import android.content.Context
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.lrm.opensesame.database.CredDao
 import com.lrm.opensesame.database.LoginCred
@@ -12,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class CredViewModel(private val credDao: CredDao): ViewModel() {
 
-    val getAllCredentials = credDao.getAllCredentials()
+    val getAllCredentials = credDao.getAllCredentials().asLiveData()
 
     private fun insertCred(cred: LoginCred) {
         viewModelScope.launch { credDao.insert(cred) }
@@ -39,6 +42,19 @@ class CredViewModel(private val credDao: CredDao): ViewModel() {
             }
             else -> true
         }
+    }
+
+    private val _groupNameList = MutableLiveData<List<String>>()
+    val groupNameList: LiveData<List<String>> get() = _groupNameList
+
+    fun setGroupNameList(credList: List<LoginCred>) {
+        val nameList = mutableListOf<String>()
+
+        credList.forEach { cred ->
+            nameList.add(cred.group)
+        }
+
+        _groupNameList.postValue(nameList.distinct())
     }
 }
 
