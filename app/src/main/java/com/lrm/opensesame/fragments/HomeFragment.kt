@@ -84,7 +84,7 @@ class HomeFragment : Fragment() {
         if (query != null) {
             val filteredList = ArrayList<String>()
             for (i in groupNameList) {
-                if (i.lowercase().contains(query)) {
+                if (i.lowercase().contains(query.lowercase())) {
                     filteredList.add(i)
                 }
             }
@@ -92,7 +92,7 @@ class HomeFragment : Fragment() {
             if (filteredList.isNotEmpty()) {
                 adapter.setFilteredList(filteredList)
             } else {
-                Toast.makeText(requireContext(), "No Data found...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Group not found...", Toast.LENGTH_SHORT).show()
             }
         }
     }
