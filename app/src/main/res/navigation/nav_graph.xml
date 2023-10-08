@@ -37,5 +37,10 @@
         android:id="@+id/addCredFragment"
         android:name="com.lrm.opensesame.fragments.AddCredFragment"
         android:label="fragment_add_cred"
-        tools:layout="@layout/fragment_add_cred" />
+        tools:layout="@layout/fragment_add_cred" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 </navigation>

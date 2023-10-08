@@ -14,4 +14,16 @@
 
     <string name="username1">Username</string>
     <string name="password1">Password</string>
+
+    <string name="developer_info">Developer Info</string>
+    <string name="dev_name">Rammohan Locharla</string>
+    <string name="code_name">code name</string>
+    <string name="dev_code_name">Jungle Mystic</string>
+    <string name="about_me">About Me</string>
+    <string name="dev_about">CA Aspirant by academics &amp; Android Kotlin Developer by passion. \n \n Pet Lover, Music Lover, Foodie, sometimes cook.</string>
+
+    <string name="delete">Delete</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="delete_message">Are you sure you want to Delete…?</string>
 </resources>

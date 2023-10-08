@@ -49,12 +49,25 @@ class CredViewModel(private val credDao: CredDao): ViewModel() {
 
     fun setGroupNameList(credList: List<LoginCred>) {
         val nameList = mutableListOf<String>()
-
         credList.forEach { cred ->
             nameList.add(cred.group)
         }
-
         _groupNameList.postValue(nameList.distinct())
+    }
+
+    fun deleteCred(cred: LoginCred) { viewModelScope.launch { credDao.delete(cred) } }
+
+    fun retrieveCred(id: Int): LiveData<LoginCred> {
+        return credDao.getLoginCred(id).asLiveData()
+    }
+
+    private fun updateCred(cred: LoginCred) {
+        viewModelScope.launch { credDao.update(cred) }
+    }
+
+    fun getUpdatedCred(id: Int, group: String, userName: String, password: String) {
+        val cred = LoginCred(id, group, userName, password)
+        updateCred(cred)
     }
 }
 

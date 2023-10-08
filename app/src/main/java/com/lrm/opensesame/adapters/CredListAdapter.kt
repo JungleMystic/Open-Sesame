@@ -1,13 +1,18 @@
 package com.lrm.opensesame.adapters
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.lrm.opensesame.database.LoginCred
 import com.lrm.opensesame.databinding.CredListItemBinding
+import com.lrm.opensesame.fragments.HomeFragmentDirections
 
 class CredListAdapter(
     private val context: Context,
@@ -33,6 +38,25 @@ class CredListAdapter(
                 binding.password.transformationMethod = PasswordTransformationMethod()
                 binding.hideIcon.visibility = View.GONE
                 binding.showIcon.visibility = View.VISIBLE
+            }
+
+            binding.username.setOnLongClickListener {
+                val clipBoard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("username", cred.userName)
+                clipBoard.setPrimaryClip(clip)
+                true
+            }
+
+            binding.password.setOnLongClickListener {
+                val clipBoard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("number", cred.password)
+                clipBoard.setPrimaryClip(clip)
+                true
+            }
+
+            binding.editIcon.setOnClickListener { view ->
+                val action = HomeFragmentDirections.actionHomeFragmentToAddCredFragment(cred.id)
+                view.findNavController().navigate(action)
             }
         }
     }
