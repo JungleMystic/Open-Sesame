@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lrm.opensesame.R
 import com.lrm.opensesame.database.LoginCred
@@ -15,8 +13,9 @@ import com.lrm.opensesame.databinding.GroupListItemBinding
 
 class GroupListAdapter(
     private val context: Context,
+    private var groupNameList: List<String>,
     private val credList: List<LoginCred>
-): ListAdapter<String, GroupListAdapter.GroupItemViewHolder>(DiffCallback) {
+): RecyclerView.Adapter<GroupListAdapter.GroupItemViewHolder>() {
 
     inner class GroupItemViewHolder(
         private val binding: GroupListItemBinding
@@ -55,18 +54,17 @@ class GroupListAdapter(
         )
     }
 
+    override fun getItemCount(): Int {
+        return groupNameList.size
+    }
+
     override fun onBindViewHolder(holder: GroupItemViewHolder, position: Int) {
-        val groupName = getItem(position)
+        val groupName = groupNameList[position]
         holder.bind(groupName)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem == newItem
-        }
+    fun setFilteredList(newList: List<String>) {
+        this.groupNameList = newList
+        notifyDataSetChanged()
     }
 }

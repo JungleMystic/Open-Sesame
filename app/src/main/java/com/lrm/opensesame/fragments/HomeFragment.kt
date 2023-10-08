@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,6 +30,9 @@ class HomeFragment : Fragment() {
         )
     }
 
+    private lateinit var adapter: GroupListAdapter
+    private lateinit var groupNameList: List<String>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,17 +54,46 @@ class HomeFragment : Fragment() {
             Log.i(TAG, "onViewCreated: getAllData -> $credList")
             credViewModel.setGroupNameList(credList)
 
-            val adapter = GroupListAdapter(requireContext(), credList)
-            binding.groupNameRv.adapter = adapter
             credViewModel.groupNameList.observe(this.viewLifecycleOwner) {list ->
+                groupNameList = list
                 Log.i(TAG, "onViewCreated: groupNameList -> $list")
-                list.let { adapter.submitList(it) }
+                adapter = GroupListAdapter(requireContext(), groupNameList, credList)
+                binding.groupNameRv.adapter = adapter
             }
         }
+
+        binding.searchBar.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.searchBar.clearFocus()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+                return true
+            }
+        })
 
         binding.addCredFab.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToAddCredFragment()
             this.findNavController().navigate(action)
+        }
+    }
+
+    private fun filterList(query: String?) {
+        if (query != null) {
+            val filteredList = ArrayList<String>()
+            for (i in groupNameList) {
+                if (i.lowercase().contains(query)) {
+                    filteredList.add(i)
+                }
+            }
+
+            if (filteredList.isNotEmpty()) {
+                adapter.setFilteredList(filteredList)
+            } else {
+                Toast.makeText(requireContext(), "No Data found...", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

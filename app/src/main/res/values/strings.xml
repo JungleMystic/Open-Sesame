@@ -26,4 +26,6 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="delete_message">Are you sure you want to Delete…?</string>
+
+    <string name="search_group">Search here…</string>
 </resources>
