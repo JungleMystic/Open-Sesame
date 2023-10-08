@@ -6,9 +6,11 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,6 +18,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lrm.opensesame.R
+import com.lrm.opensesame.constants.TAG
 import com.lrm.opensesame.database.CredApplication
 import com.lrm.opensesame.database.LoginCred
 import com.lrm.opensesame.databinding.FragmentAddCredBinding
@@ -32,6 +35,8 @@ class AddCredFragment : Fragment() {
             (activity?.application as CredApplication).database.credDao()
         )
     }
+
+    private lateinit var groupNameList: MutableList<String>
 
     private val navigationArgs: AddCredFragmentArgs by navArgs()
     private lateinit var cred: LoginCred
@@ -51,6 +56,12 @@ class AddCredFragment : Fragment() {
         binding.backIcon.setOnClickListener { goBack() }
         binding.cancel.setOnClickListener { goBack() }
 
+        credViewModel.groupNameList.observe(this.viewLifecycleOwner) { list ->
+            groupNameList = list.toMutableList()
+            groupNameList.add("Others")
+            Log.i(TAG, "onViewCreated: groupNameList -> $groupNameList")
+        }
+
         val id = navigationArgs.id
 
         if (id > 0) {
@@ -66,13 +77,16 @@ class AddCredFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.drop_down_tv, groupNameList)
+        binding.groupName.setAdapter(arrayAdapter)
+    }
+
     private fun bind(cred: LoginCred) {
         binding.groupName.setText(cred.group, TextView.BufferType.SPANNABLE)
         binding.username.setText(cred.userName, TextView.BufferType.SPANNABLE)
         binding.password.setText(cred.password, TextView.BufferType.SPANNABLE)
-
-        // To get the focus to Group Name Edit text
-        binding.groupName.requestFocus()
 
         binding.save.setOnClickListener { updateEvent(cred.id) }
         binding.deleteIcon.setOnClickListener { showDeleteDialog(cred) }
