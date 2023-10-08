@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
             credViewModel.groupNameList.observe(this.viewLifecycleOwner) {list ->
                 groupNameList = list
                 Log.i(TAG, "onViewCreated: groupNameList -> $list")
-                adapter = GroupListAdapter(requireContext(), groupNameList, credList)
+                adapter = GroupListAdapter(requireContext(), groupNameList, credList, this)
                 binding.groupNameRv.adapter = adapter
             }
         }

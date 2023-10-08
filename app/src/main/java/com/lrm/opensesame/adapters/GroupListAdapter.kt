@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.lrm.opensesame.R
 import com.lrm.opensesame.database.LoginCred
@@ -14,7 +15,8 @@ import com.lrm.opensesame.databinding.GroupListItemBinding
 class GroupListAdapter(
     private val context: Context,
     private var groupNameList: List<String>,
-    private val credList: List<LoginCred>
+    private val credList: List<LoginCred>,
+    private val fragment: Fragment
 ): RecyclerView.Adapter<GroupListAdapter.GroupItemViewHolder>() {
 
     inner class GroupItemViewHolder(
@@ -31,7 +33,7 @@ class GroupListAdapter(
         fun bind(groupName: String) {
             binding.groupName.text = groupName
             val filteredList = credList.filter { it.group == groupName }
-            val adapter = CredListAdapter(context, filteredList)
+            val adapter = CredListAdapter(context, filteredList, fragment)
             binding.credRv.adapter = adapter
 
             var isExpanded = false
