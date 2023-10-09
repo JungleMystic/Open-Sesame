@@ -147,6 +147,12 @@ class AddCredFragment : Fragment() {
         this.findNavController().navigateUp()
     }
 
+    override fun onStop() {
+        super.onStop()
+        Log.i(TAG, "onStop is called")
+        requireActivity().finish()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
